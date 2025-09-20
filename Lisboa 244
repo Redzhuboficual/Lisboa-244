@@ -1,0 +1,123 @@
+-- Script Menu Completo Brookhaven
+-- Feito para fins educacionais
+
+-- Criar UI
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local UIListLayout = Instance.new("UIListLayout")
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+MainFrame.Size = UDim2.new(0, 250, 0, 350)
+MainFrame.Position = UDim2.new(0.05, 0, 0.2, 0)
+MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+MainFrame.Active = true
+MainFrame.Draggable = true
+
+UICorner.CornerRadius = UDim.new(0, 12)
+UICorner.Parent = MainFrame
+
+UIListLayout.Parent = MainFrame
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 5)
+
+-- Função para criar botões
+local function criarBotao(nome, callback)
+    local Btn = Instance.new("TextButton")
+    Btn.Size = UDim2.new(1, -10, 0, 40)
+    Btn.Position = UDim2.new(0, 5, 0, 0)
+    Btn.Text = nome
+    Btn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Btn.Parent = MainFrame
+    Btn.MouseButton1Click:Connect(callback)
+end
+
+-- Menu Informações
+criarBotao("Informações", function()
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Brookhaven Script";
+        Text = "Feito por você :)";
+        Duration = 5
+    })
+end)
+
+-- Casas
+criarBotao("Casas", function()
+    print("Abrir Menu de Casas (adicione funções específicas)")
+end)
+
+-- Carros
+criarBotao("Carros", function()
+    print("Abrir Menu de Carros (adicione funções específicas)")
+end)
+
+-- Music ALL
+criarBotao("Music ALL", function()
+    for i,v in pairs(workspace:GetDescendants()) do
+        if v:IsA("Sound") then
+            v:Play()
+        end
+    end
+end)
+
+-- Music
+criarBotao("Music", function()
+    local music = Instance.new("Sound", workspace)
+    music.SoundId = "rbxassetid://1848354538" -- exemplo ID
+    music:Play()
+end)
+
+-- Scripts OP
+criarBotao("Scripts OP", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/xyz123"))() -- substitua pelo script que quiser
+end)
+
+-- Painel Admin Oculto
+local adminPanel = Instance.new("Frame")
+adminPanel.Size = UDim2.new(0, 200, 0, 200)
+adminPanel.Position = UDim2.new(0.7, 0, 0.3, 0)
+adminPanel.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+adminPanel.Visible = false
+adminPanel.Parent = ScreenGui
+
+local function criarAdminBtn(nome, callback)
+    local Btn = Instance.new("TextButton")
+    Btn.Size = UDim2.new(1, -10, 0, 40)
+    Btn.Position = UDim2.new(0, 5, 0, 0)
+    Btn.Text = nome
+    Btn.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Btn.Parent = adminPanel
+    Btn.MouseButton1Click:Connect(callback)
+end
+
+-- Atalho para abrir Painel Admin (tecla "P")
+game:GetService("UserInputService").InputBegan:Connect(function(input, gpe)
+    if not gpe and input.KeyCode == Enum.KeyCode.P then
+        adminPanel.Visible = not adminPanel.Visible
+    end
+end)
+
+-- Funções Admin
+criarAdminBtn("Fly", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/YwQpP7d7"))()
+end)
+
+criarAdminBtn("Kick", function()
+    local plr = game.Players.LocalPlayer
+    for _,target in pairs(game.Players:GetPlayers()) do
+        if target ~= plr then
+            target:Kick("Você foi kickado pelo Admin!")
+        end
+    end
+end)
+
+criarAdminBtn("Bring", function()
+    local plr = game.Players.LocalPlayer
+    for _,target in pairs(game.Players:GetPlayers()) do
+        if target ~= plr then
+            target.Character:MoveTo(plr.Character.Head.Position + Vector3.new(2,0,0))
+        end
+    end
+end)
